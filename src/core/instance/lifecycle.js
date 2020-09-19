@@ -137,13 +137,15 @@ export function lifecycleMixin (Vue: Class<Component>) {
     }
   }
 }
-
+// 挂载组件
 export function mountComponent (
-  vm: Component,
-  el: ?Element,
-  hydrating?: boolean
+  vm: Component, // vue 的实例
+  el: ?Element,  // 挂载的元素
+  hydrating?: boolean // 服务端渲染
 ): Component {
+  // el 元素挂载到vm实例下的$el属性
   vm.$el = el
+  // 如果传入vue实例的属性里没有render的方法
   if (!vm.$options.render) {
     vm.$options.render = createEmptyVNode
     if (process.env.NODE_ENV !== 'production') {
