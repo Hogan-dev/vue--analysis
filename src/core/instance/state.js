@@ -207,12 +207,15 @@ function initComputed (vm: Component, computed: Object) {
   }
 }
 
+// 定义计算属性
 export function defineComputed (
   target: any,
   key: string,
   userDef: Object | Function
 ) {
-  const shouldCache = !isServerRendering()
+  // 非服务端渲染需要缓存 isServerRendering = false
+  const shouldCache = !isServerRendering() // true
+  //
   if (typeof userDef === 'function') {
     sharedPropertyDefinition.get = shouldCache
       ? createComputedGetter(key)

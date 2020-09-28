@@ -15,6 +15,7 @@ export function initExtend (Vue: GlobalAPI) {
 
   /**
    * Class inheritance
+   * 类继承
    */
   Vue.extend = function (extendOptions: Object): Function {
     extendOptions = extendOptions || {}
@@ -30,10 +31,18 @@ export function initExtend (Vue: GlobalAPI) {
       validateComponentName(name)
     }
 
+    /**
+     * 组合继承
+     * @param {} options
+     */
+    // 子类构造函数
     const Sub = function VueComponent (options) {
       this._init(options)
     }
+    //将超类的实例赋值给子类的原型
     Sub.prototype = Object.create(Super.prototype)
+    // 由于上一步操作后，Sub.prototype.constructor = "Object"
+    // 这里改成 Sub.ptototype.constructor = "Sub"
     Sub.prototype.constructor = Sub
     Sub.cid = cid++
     Sub.options = mergeOptions(
@@ -45,6 +54,8 @@ export function initExtend (Vue: GlobalAPI) {
     // For props and computed properties, we define the proxy getters on
     // the Vue instances at extension time, on the extended prototype. This
     // avoids Object.defineProperty calls for each instance created.
+    // 对于 props属性和computed计算属性，我们在Vue实例的扩展过程中，在被扩展的原型prototype中定义代理的getters
+    // 这样可以避免 Object.defineProperty 调用每一个实例的创建created
     if (Sub.options.props) {
       initProps(Sub)
     }
@@ -80,16 +91,16 @@ export function initExtend (Vue: GlobalAPI) {
   }
 }
 
-function initProps (Comp) {
+function initProps (Comp) { //Sub
   const props = Comp.options.props
   for (const key in props) {
-    proxy(Comp.prototype, `_props`, key)
+    proxy(Comp.prototype, `_props`, key) //Sub.prototype
   }
 }
 
-function initComputed (Comp) {
+function initComputed (Comp) { //Sub
   const computed = Comp.options.computed
   for (const key in computed) {
-    defineComputed(Comp.prototype, key, computed[key])
+    defineComputed(Comp.prototype, key, computed[key]) //Sub.prototype
   }
 }

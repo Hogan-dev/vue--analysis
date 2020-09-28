@@ -486,6 +486,7 @@ function processRef (el) {
   }
 }
 
+// 解析 v-for
 export function processFor (el: ASTElement) {
   let exp
   if ((exp = getAndRemoveAttr(el, 'v-for'))) {
@@ -761,6 +762,7 @@ function processAttrs (el) {
   for (i = 0, l = list.length; i < l; i++) {
     name = rawName = list[i].name
     value = list[i].value
+    // v-、@、: 开头
     if (dirRE.test(name)) {
       // mark element as dynamic
       el.hasBindings = true

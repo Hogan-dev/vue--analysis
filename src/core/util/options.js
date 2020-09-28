@@ -276,6 +276,7 @@ function checkComponents (options: Object) {
   }
 }
 
+// 验证组件名字
 export function validateComponentName (name: string) {
   if (!new RegExp(`^[a-zA-Z][\\-\\.0-9_${unicodeRegExp.source}]*$`).test(name)) {
     warn(
